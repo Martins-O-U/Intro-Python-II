@@ -1,4 +1,5 @@
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
@@ -49,3 +50,52 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+# setting player's initial location
+location_description = Player(room['outside']).location
+player_location = Player(room['outside'].name)
+player_name = input("Enter Your Adventure name: ")
+
+print(f"Hello {player_name}, Welcome to Treasure Island.")
+
+print(player_location)
+print(location_description)
+
+# user choices
+user = input(
+    " Enter a key: [w] North  [s] South  [d] East  [a] West  [q] Quit\n")
+
+while not user == 'q':
+    if user == 'w':
+        try:
+            location_description = location_description.n_to
+            print(location_description)
+        except:
+            print('choose another direction')
+        user = input(
+            "Enter a key: [w] North  [s] South  [d] East  [a] West  [q] Quit\n")
+    elif user == 's':
+        try:
+            location_description = location_description.s_to
+            print(location_description)
+        except:
+            print('choose another direction')
+        user = input(
+            "Enter a key: [w] North  [s] South  [d] East  [a] West  [q] Quit\n")
+    elif user == 'd':
+        try:
+            location_description = location_description.e_to
+            print(location_description)
+        except:
+            print('choose another direction')
+        user = input(
+            "Enter a key: [w] North  [s] South  [d] East  [a] West  [q] Quit\n")
+    elif user == 'a':
+        try:
+            location_description = location_description.e_to
+            print(location_description)
+        except:
+            print('choose another direction')
+        user = input(
+            "Enter a key: [w] North  [s] South  [d] East  [a] West  [q] Quit\n")
+print(f'Game Over!, \n Thanks for playing, {player_name}')

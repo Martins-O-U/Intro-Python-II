@@ -7,4 +7,4 @@ class Player:
         self.location = location
 
     def __repr__(self):
-        return f'Your current location is : \n{self.location}'
+        return f'Your current location is : {self.location}'
