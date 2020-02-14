@@ -33,8 +33,6 @@ room['overlook'].s_to = room['foyer']
 room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
-
-choices = ["n", "s", "w", "e"]
 #
 # Main
 #
@@ -51,8 +49,6 @@ choices = ["n", "s", "w", "e"]
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
-
-# player = Player("Wanderer", room["outside"])
 
 player_name = input("Enter Your Adventure name: ")
 
@@ -120,7 +116,7 @@ def process_input(r, cmd):
             except:
                 print('choose another direction')
         else:
-            print("Invalid input!. Enter \"h\" for help instructions")
+            print("Invalid input!. Enter Alpahbets as listed")
             return
 
 
