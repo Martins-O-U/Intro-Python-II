@@ -34,11 +34,9 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
-choices = ["n", "s", "w", "e"]
 #
 # Main
 #
-
 # Make a new player object that is currently in the 'outside' room.
 
 # Write a loop that:
@@ -52,80 +50,85 @@ choices = ["n", "s", "w", "e"]
 #
 # If the user enters "q", quit the game.
 
-# player = Player("Wanderer", room["outside"])
 
 player_name = input("Enter Your Adventure name: ")
-
 player = Player(f'{player_name}', room['outside'])
-location_description = Player(f'{player_name}', room['outside']).current_room
+
+
+Entered_choices = ["n", "s", "e", "w"]
 
 
 def get_input():
     user_choice = input(
-        "Enter a key: [n] North  [s] South  [e] East  [w] West  [i] Inventory [t] Take  [d] Drop [q] Quit\n")
+        "Enter a key: [n] North , [s] South,  [e] East,  [w] West,  [i] Inventory \nor [take item_name] To-Take-Item,  [drop item_name] To-Drop-Item or [q] To-Quit\n")
+    user_choice = user_choice.split(" ")
     return user_choice
 
 
-def room_details(r):
+def room_details(room):
     print("\n===============================================")
-    print(f'Current Location:- {r.name}.\n {r.description}')
-    if len(r.items) == 0:
+    print(f'Current Location:- {room.name}.\n {room.description}')
+    if len(room.items) == 0:
         print("No item in the room")
     else:
         print("You look around, and see: ", end="")
-        for item in r.items:
+        for item in room.items:
             print(item, end=", ")
+            print("\n what would your next action be ?")
 
     print("\n===============================================")
 
 
-def process_input(r, cmd):
-    if len(cmd) == 1:
-        val = cmd[0]
+def process_input(room, choice):
+    if len(choice) == 1:
+        val = choice[0]
         if val == "q":
             print(f"Game Over!, \n Hope to see you again {player_name}!")
             exit()
 
-        elif val == "i":
+        if val in Entered_choices and room[f"{val}_to"] == None:
+            print("Choose another direction")
+            return
+
+        if val == "inventory" or val == "i":
             if len(player.inventory):
                 print("Your items are: ")
                 for i in player.inventory:
                     print(i.name)
             else:
                 print("You are broke broke")
-                return
-
-        elif val == 'n':
-            try:
-                player.current_room = location_description.n_to
-                room_details(player.current_room)
-            except:
-                print('choose another direction')
-        elif val == 's':
-            try:
-                player.current_room = location_description.s_to
-                room_details(player.current_room)
-            except:
-                print('choose another direction')
-        elif val == 'e':
-            try:
-                player.current_room = location_description.e_to
-                room_details(player.current_room)
-            except:
-                print('choose another direction')
-        elif val == 'w':
-            try:
-                player.current_room = location_description.w_to
-                room_details(player.current_room)
-            except:
-                print('choose another direction')
-        else:
-            print("Invalid input!. Enter \"h\" for help instructions")
             return
+
+        if val not in Entered_choices:
+            print("Invalid input!. Enter inputs listed as options")
+            return
+
+        player.current_room = room[f"{val}_to"]
+        room_details(player.current_room)
+
+    elif len(choice) == 2:
+        verb, item = choice
+        if(verb == "take" or verb == "get"):
+            if(item in player.current_room.items):
+                item_index = player.current_room.items.index(item)
+                removed_item = player.current_room.items.pop(item_index)
+                player.inventory.append(removed_item)
+                removed_item.on_take()
+            else:
+                print("That item is not in the room")
+
+        elif(verb == "drop"):
+            if(item in player.inventory):
+                item_index = player.inventory.index(item)
+                removed_item = player.inventory.pop(item_index)
+                player.current_room.items.append(removed_item)
+                removed_item.on_drop()
+            else:
+                print("You dpo not have that item in your inventory")
 
 
 print(f"Hello {player_name}, Welcome to Treasure Island.")
 room_details(player.current_room)
 while True:
-    inp = get_input()
-    process_input(player.current_room, inp)
+    inputs = get_input()
+    process_input(player.current_room, inputs)

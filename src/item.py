@@ -7,7 +7,7 @@ class Item:
         return self.name.lower() == other.lower()
 
     def __str__(self):
-        return f"a {self.name}"
+        return f"a/an {self.name}"
 
     def on_take(self):
         print(f"{self.name} was picked up")
