@@ -3,9 +3,14 @@
 
 
 class Room:
-    def __init__(self, name, description):
+    def __init__(self, name, description, items=[], is_light=True):
         self.name = name
         self.description = description
+        self.items = items
+        self.is_light = is_light
 
-    def __repr__(self):
-        return self.name + '\n' + self.description
+    def add_item(self, item):
+        self.items.append(item)
+
+    def __getitem__(self, arg):
+        return getattr(self, arg)

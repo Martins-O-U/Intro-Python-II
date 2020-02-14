@@ -3,8 +3,10 @@
 
 
 class Player:
-    def __init__(self, location):
-        self.location = location
+    def __init__(self, name, current_room, inventory=[]):
+        self.name = name
+        self.current_room = current_room
+        self.inventory = inventory
 
-    def __repr__(self):
-        return f'Your current location is : {self.location}'
+    def add_item(self, item):
+        self.inventory.append(item)
