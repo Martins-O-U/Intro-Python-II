@@ -33,7 +33,6 @@ room['overlook'].s_to = room['foyer']
 room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
-
 #
 # Main
 #
@@ -49,7 +48,6 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
-
 
 player_name = input("Enter Your Adventure name: ")
 player = Player(f'{player_name}', room['outside'])
